@@ -1,0 +1,13 @@
+{
+  "name": "pal-city",
+  "version": "1.0.0",
+  "description": "An API for a social network application for pals to connect and react to each other's posts using Express.js for routing, a MongoDB database, and the Mongoose ODM.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
