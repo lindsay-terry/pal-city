@@ -43,5 +43,38 @@ module.exports = {
             res.status(500).json({ error, message: 'Internal server error.' });
             console.error(error);
         }
+    },
+
+    // Update a thought
+    async updateThought(req, res) {
+        try {
+            const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId}, req.body, { new: true });
+            if (!thought) {
+                res.status(404).json({ message: 'No thought found with that ID' });
+            }
+            res.status(200).json({thought, message: 'Thought updated successfullly!' });
+        } catch (error) {
+            res.status(500).json({error, message: 'Internal server error.' });
+            console.error(error);
+        }
+    },
+
+    // Delete a thought
+    async deleteThought(req, res) {
+        try {
+            const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
+            if (!thought) {
+                return res.status(404).json({ message: 'No thought found with that ID.' });
+            }
+            // Find the user to remove the thought ID from their thought array
+            const user = await User.findOneAndUpdate({ username: thought.username }, { $pull: {thoughts: req.params.thoughtId }}, { new: true });
+            if (!user) {
+                return res.status(404).json({ message: 'Thought deleted but no user found to remove from thoughts.' });
+            }
+            res.status(200).json({ message: 'Thought successfully deleted!' });
+        } catch (error) {
+            res.status(500).json({ error, message: 'Internal server error.' });
+            console.error(error);
+        }
     }
 };
