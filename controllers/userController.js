@@ -19,7 +19,7 @@ module.exports = {
             .select('-__v');
 
             if (!user) {
-                return res.status(404).json({ message: 'NO user found with that ID.' });
+                return res.status(404).json({ message: 'No user found with that ID.' });
             }
             res.status(200).json(user);
         } catch (error) {
