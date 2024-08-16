@@ -1,4 +1,5 @@
 const { Schema, Types } = require('mongoose');
+const moment = require('moment');
 
 const reactionSchema = new Schema(
     {
@@ -12,7 +13,7 @@ const reactionSchema = new Schema(
 reactionSchema
     .virtual('timestampFormat')
     .get(function () {
-        return this.createdAt.toLocaleDateString('MM/DD/YYYY');
+        return moment(this.createdAt).format('MM/DD/YYYY');
     });
 
 module.exports = reactionSchema;

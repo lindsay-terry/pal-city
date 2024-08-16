@@ -15,7 +15,7 @@ module.exports = {
     // Get a single user
     async getSingleUser(req, res) {
         try {
-            const user = await User.findOne({ _id: req.params.userId})
+            const user = await User.findOne({ _id: req.params.userId })
             .select('-__v');
 
             if (!user) {
@@ -74,9 +74,9 @@ module.exports = {
     // Add a friend
     async addFriend(req, res) {
         try {
-            const user = await User.findOneAndUpdate({ _id: req.params.userId }, { $push: {friends: req.params.friendId }}, { new: true });
+            const user = await User.findOneAndUpdate({ _id: req.params.userId }, { $addToSet: {friends: req.params.friendId }}, { new: true });
             if (!user) {
-                return res.status(404).json({ message: 'No user found with that ID.' })
+                return res.status(404).json({ message: 'No user found with that ID.' });
             }
             res.status(200).json({user, message: 'Friend added!' });
         } catch (error) {
