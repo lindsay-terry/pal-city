@@ -94,7 +94,7 @@ module.exports = {
             }
             res.status(200).json({user, message: 'Friend deleted!' });
         } catch (error) {
-            res.status(500).json({ error, message: 'Friend added!' });
+            res.status(500).json({ error, message: 'Internal server error' });
             console.error(error);
         }
     }
