@@ -19,6 +19,9 @@ Installation instructions for application:
 `npm i` 
 
 ## Usage
+
+Click [here](https://drive.google.com/file/d/1S0tsVSP99TwTxRggtI6vI3RBVfitAA5q/view?usp=sharing) to see a video walkthrough of application.
+
 To use pal-city, clone the repository and run `npm i` to install all dependencies. Ensure MongoDB is installed and run the script depicted in the package.json file `npm run seed` to connect to your local MongoDB database and create the necessary collections for the application.  Start the application using `npm start` and navigate to your favorite API testing environment (we've used Insomnia for the demonstration).
 
 Interact with the application using the following endpoints:
