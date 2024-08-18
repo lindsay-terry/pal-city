@@ -31,13 +31,15 @@ module.exports = {
     // Create a new thought
     async newThought(req, res) {
         try {
+            // Find user_id based on username to assign thought to correct user
+            const user = await User.findOne({ username: req.body.username });
+            if (!user) {
+                return res.status(404).json({ message: 'No user found with that username' });
+            }
             const thought = await Thought.create(req.body);
             // Find associated user and update user document with created thought
-            const user = await User.findOneAndUpdate( {_id: req.body.userId }, { $addToSet: { thoughts: thought._id }}, { new: true });
+            await User.findByIdAndUpdate( user._id , { $addToSet: { thoughts: thought._id }}, { new: true });
 
-            if (!user) {
-                return res.status(404).json({ message: 'Thought created, but found no user with that ID.' });
-            }
             res.status(200).json({thought, message: 'Thought created!' });
         } catch (error) {
             res.status(500).json({ error, message: 'Internal server error.' });
@@ -94,11 +96,11 @@ module.exports = {
 
     async deleteReaction(req, res) {
         try {
-            const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, {$pull: { reactions: req.params.reactionId}}, { new: true });
+            const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, {$pull: { reactions: {_id: req.params.reactionId}}}, { new: true });
             if (!thought) {
                 return res.status(404).json({ message: 'No thought found with that ID.' });
             }
-            res.status(200).json({ message: 'Reaction successfully deleted.' });
+            res.status(200).json({ thought, message: 'Reaction successfully deleted.' });
         } catch (error) {
             res.status(500).json({ error, message: 'Internal server error.' });
             console.error(error);
